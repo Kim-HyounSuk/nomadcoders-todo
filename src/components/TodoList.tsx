@@ -1,52 +1,50 @@
-import { useForm } from "react-hook-form";
-import { atom, useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
+import styled from "styled-components";
+import { todoSelector } from "./atom";
+import Category from "./Category";
+import CreateCategory from "./CreateCategory";
+import CreateTodo from "./CreateTodo";
+import Todo from "./Todo";
 
-interface IFormData {
-  todo: string;
-}
-
-interface ITodoData {
-  text: string;
-  id: number;
-  category: "TO_DO" | "DOING" | "DONE";
-}
-
-const todoState = atom<ITodoData[]>({
-  key: "todo",
-  default: [],
-});
+const Container = styled.div`
+  max-width: 30rem;
+  min-width: 410px;
+  margin: 0px auto;
+  padding: 0px 2rem;
+`;
+const Header = styled.header`
+  display: flex;
+  height: 8rem;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: ${(props) => props.theme.accentColor};
+  }
+`;
 
 const TodoList = () => {
-  const [todos, setTodos] = useRecoilState(todoState);
-  const { register, handleSubmit, setValue } = useForm<IFormData>();
-
-  const handleValid = ({ todo }: IFormData) => {
-    setTodos((todos) => [
-      ...todos,
-      { text: todo, id: Date.now(), category: "TO_DO" },
-    ]);
-    setValue("todo", "");
-  };
+  const todos = useRecoilValue(todoSelector);
 
   return (
-    <div>
-      <h1>Todo List</h1>
+    <Container>
       <hr />
-      <form onSubmit={handleSubmit(handleValid)}>
-        <input
-          {...register("todo", {
-            required: "Please write a what to do.",
-          })}
-          placeholder="Please write what to do in here."
-        />
-        <button>Add</button>
-      </form>
+      <Header>
+        <h1>Todo List</h1>
+      </Header>
+      <hr />
+      <hr />
+      <CreateCategory />
+      <hr />
+      <hr />
+      <CreateTodo />
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.text}</li>
+          <Todo key={todo.id} {...todo} />
         ))}
       </ul>
-    </div>
+    </Container>
   );
 };
 

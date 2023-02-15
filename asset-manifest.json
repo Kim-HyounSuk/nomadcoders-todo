@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/nomadcoders-todo-app/static/js/main.cea0e19f.js",
+    "index.html": "/nomadcoders-todo-app/index.html",
+    "main.cea0e19f.js.map": "/nomadcoders-todo-app/static/js/main.cea0e19f.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.cea0e19f.js"
+  ]
+}
